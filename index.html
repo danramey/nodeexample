@@ -1,0 +1,23 @@
+<html>
+<body>
+<input id="message"/>
+<button onclick="sendMessage()">submit</button>
+<div id="log">
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost:8045');
+  socket.on('message', function (data) {
+  	var log = document.getElementById('log');
+	log.innerHTML = log.innerHTML + '</br><span style="color:red">you:' + data.message + '</span>';
+  });
+  function sendMessage() {
+  		var message = document.getElementById("message").value;
+  		var log = document.getElementById('log');
+		log.innerHTML = log.innerHTML + "</br>me:" + message;
+  		socket.emit('newMessage', { message: message});
+  }
+  
+</script>
+</body>
+</html>
